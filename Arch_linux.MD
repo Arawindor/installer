@@ -129,11 +129,12 @@ Disk partition structure:
 `echo archlinux > /etc/hostname` where archlinux is your hostname
 29. set hosts
 `vim /etc/hosts` and insert your host
->127.0.0.1		localhost	yourhostname
->::1				 localhost	yourhostname
+	>127.0.0.1		localhost	yourhostname
+	>
+	>::1				 localhost	yourhostname
 4. set the grub config
 `vim /et/default/grub` and insert `cryptdevice=/dev/sdaX:yourhostname` into `GRUB_CMDLINE_LINUX=""` where sdaX is your linux partition and
-> `GRUB_CMDLINE_LINUX="cryptdevice/dev/sda3:archlinux"`
+	> `GRUB_CMDLINE_LINUX="cryptdevice/dev/sda3:archlinux"`
 5. configure mkinitcpio.conf
 `vim /etc/mkinitcpio.conf` and insert `encrypt` before `filesystems` into the `HOOKS` field
 	> `HOOKS=(base udev autodetect modconf block encrypt filesystems keyboard fsck)`
