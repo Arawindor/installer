@@ -1,6 +1,5 @@
 # Install Arch with full disk encryption (BTRFS) and separated encrypted home partition
 
-<<<<<<< HEAD
 This guide is based on Youtube Sheridan Computers' video "How to install Arch Linux with full disk encryption (BTRFS) and KDE Plasma Desktop Environment" (https://www.youtube.com/watch?v=hJRfMgpke3E)
 
 ### Disk partition structure
