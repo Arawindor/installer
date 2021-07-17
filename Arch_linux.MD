@@ -4,6 +4,8 @@ This guide is based on Youtube Sheridan Computers' video "How to install Arch Li
 
 ### Disk partition structure
 Structure:
+=======
+Disk partition structure:
 - linux volume (encrypted) with subvolumes:
 	- @ (root)
 	- @var
