@@ -179,7 +179,7 @@ locale-gen # generate locale
 echo LANG=it_IT > /etc/locale.conf # (eg. it_IT, en_US, en_GB, ...)
 echo KEYMAP=it > /etc/vconsole.conf # set the keymap
 ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime # set the timezone
-hwclock --systohc --utc+1 # set the clock
+hwclock --systohc # set the clock
 ```
 Set the hostname and hosts
 ```sh
@@ -188,7 +188,8 @@ vim /etc/hosts # and insert your host
 ```
 
 >127.0.0.1		localhost	yourhostname   
->::1				 localhost	yourhostname
+>::1				 	localhost	yourhostname   
+>127.0.1.1		yourhostname.localdomain	yourhostname
 
 Set the grub config and insert `cryptdevice=/dev/sdaX:yourhostname` into `GRUB_CMDLINE_LINUX=""` where sdaX is your linux partition    
 
