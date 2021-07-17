@@ -2,6 +2,9 @@
 
 This guide is based on Youtube Sheridan Computers' video "How to install Arch Linux with full disk encryption (BTRFS) and KDE Plasma Desktop Environment" (https://www.youtube.com/watch?v=hJRfMgpke3E)
 
+####Disclaimer
+This guide is designed to achive a single boot Arch linux distribution and is not suitable for dual boot (eg.: Windows and Linux)
+
 ### Disk partition structure
 Structure:
 Disk partition structure:
