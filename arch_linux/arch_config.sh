@@ -29,7 +29,12 @@ sleep 1s
 
 # Configure GRUB
 printf "\e[1;32mConfigure Grub\e[0m"
-sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cryptdevice\/dev\/sda3:archlinux"/g' /etc/default/grub
+echo "Define your main root partition code (eg.: sda3, nvme01, vda2, ...):"
+read linux_partition_code
+echo "Define your main root partition label (eg.: linux, archlinux, root, ...):"
+read linux_partition_label
+#sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cryptdevice\/dev\/sda3:linux"/g' /etc/default/grub
+sed -i 's,GRUB_CMDLINE_LINUX="",GRUB_CMDLINE_LINUX="cryptdevice/dev/'"$linux_partition_code"':'"$linux_partition_label"'",g' /etc/default/grub
 sleep 1s
 
 # Configure mkinitcpio.config
@@ -40,7 +45,9 @@ sleep 1s
 
 # Install Grub
 printf "\e[1;32mInstall Grub\e[0m"
-grub-install --boot-directory /boot --efi-directory /boot/efi /dev/sda2
+echo "Define your /boot partition (eg. sda2, nvme01, vda3, ...)"
+read boot_partition_code
+grub-install --boot-directory /boot --efi-directory /boot/efi /dev/$boot_partition_code
 grub-mkconfig -o /boot/grub/grub.cfg
 grub-mkconfig -o /boot/efi/EFI/arch/grub.cfg
 

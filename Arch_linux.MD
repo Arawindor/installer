@@ -139,6 +139,7 @@ mount -t btrfs -o subvol=root /dev/mapper/linux /mnt # mount root subvol to /mnt
 mount -t btrfs -o subvol=swap /dev/mapper/linux /mnt/swap # mount swap subvol to /mnt/swap
 mount -t btrfs -o subvol=snapshots /dev/mapper/linux /mnt/snapshots # mount snapshots subvol to /mnt/snapshots
 mount -t btrfs -o subvol=var /dev/mapper/linux /mnt/var # mount var subvol to /mnt/var
+mount -t btrfs -o subvol=home /dev/mapper/home /mnt/home # mount home subvol to /mnt/home
 ```
 Mount the boot volumes
 ```sh
