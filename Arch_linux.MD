@@ -4,10 +4,10 @@ This guide is based on Youtube Sheridan Computers' video "How to install Arch Li
 
 
 
-#### Disclaimer
-This guide is designed to achive a single boot Arch linux distribution and is not suitable for dual boot (eg.: Windows and Linux)
+### Disclaimer
+This guide is designed to achive a single boot Arch linux distribution and is not suitable for dual boot configuration (eg.: Windows and Linux)
 
-### Disk partition structure
+## Disk partition structure
 Structure:
 Disk partition structure:
 - linux volume (encrypted) with subvolumes:
@@ -20,13 +20,16 @@ Disk partition structure:
 - boot
 - boot/efi
 
-### Disks setup
+## Installation procedure
+
+### Live usb setup
 Set keyboard layout
 ```sh
 loadkeys it
 ```
-Check internet connection
+Check internet connection (ethernet connection preferred)
 ```sh
+ping 8.8.8.8   
 ping google.com
 ```
 Set daytime
@@ -37,7 +40,7 @@ List all disks and partitons installed
 ```sh
 lsblk
 ```
-Disks setup
+### Disks initial setup
 ```sh
 fdisk /dev/sdX
 m #make partition
@@ -69,7 +72,7 @@ cfdisk
 	- confirm with `yes`
 	- select `Quit` to quit cfdisk
 
-Format partitions
+#### Format partitions
 ```sh
 mkfs.vfat -n "EFI System" /dev/sdXN # where XN is the EFI partition (eg. /dev/sda1)
 mkfs.ext4 -L boot /dev/sdXN # where XN is the Boot partition (eg. /dev/sda2)
@@ -95,7 +98,7 @@ Check if the encrypted partition are opened
 ```sh
 ls /dev/mapper/
 ```
-Format with BTRFS the opened partitions and create volumes
+#### Format with BTRFS the opened partitions and create volumes
 ```sh
 mkfs.btrfs -L root /dev/mapper/linux # for the root partition
 mkfs.btrfs -L home /dev/mapper/home # for the home partition
@@ -121,7 +124,7 @@ ls # to check the subvolume
 cd /
 umount -R /mnt
 ```
-Create the mounting point
+#### Create the mounting point and mount the subvolumes
 ```sh
 mkdir -p /mnt/swap
 mkdir /mnt/snapshots
@@ -174,14 +177,14 @@ passwd
 ```
 Set locale
 ```sh
-vim /etc/locale.gen # search your language and uncomment the UTF-8 language
+vim /etc/locale.gen # search your language and uncomment your UTF-8 language
 locale-gen # generate locale
 echo LANG=it_IT > /etc/locale.conf # (eg. it_IT, en_US, en_GB, ...)
 echo KEYMAP=it > /etc/vconsole.conf # set the keymap
 ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime # set the timezone
 hwclock --systohc # set the clock
 ```
-Set the hostname and hosts
+#### Set the hostname and hosts
 ```sh
 echo archlinux > /etc/hostname # where archlinux is your hostname
 vim /etc/hosts # and insert your host
@@ -191,14 +194,16 @@ vim /etc/hosts # and insert your host
 >::1				 	localhost	yourhostname   
 >127.0.1.1		yourhostname.localdomain	yourhostname
 
+#### Grub config
 Set the grub config and insert `cryptdevice=/dev/sdaX:yourhostname` into `GRUB_CMDLINE_LINUX=""` where sdaX is your linux partition    
 
 ```sh
-vim /et/default/grub
+vim /etc/default/grub
 ```
 
 > GRUB_CMDLINE_LINUX="cryptdevice/dev/sda3:archlinux"
 
+#### Config mkinitcpio.conf
 Configure mkinitcpio.conf and insert `encrypt` before `filesystems` into the `HOOKS` field   
 
 ```sh
@@ -212,7 +217,7 @@ Apply mkinitcpio changes
 `mkinitcpio -p linux`
 ```
 
-Install Grub
+#### Install Grub
 ```sh
 grub-install --boot-directory /boot --efi-directory /boot/efi /dev/sdXN # where /dev/sdXN is the boot partition (eg. /dev/sda2)
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -232,7 +237,9 @@ reboot
 
 Login with root
 
-Start Network Manager
+#### Start Network Manager
+This is intended for ethernet connection, not for WiFi connection
+
 ```sh
 systemctl start NetworkManager
 systemctl enable NetworkManager
@@ -244,7 +251,7 @@ Install vi
 pacman -Syu vi
 ```
 
-Add and configure user
+#### Add and configure user
 ```sh
 useradd -m -d /home/username username # to create a specific user
 passwd username # to change its password
@@ -260,7 +267,7 @@ exit
 
 login with "username"
 
-Install the software as needed (just an example)
+#### Install the software as needed (just an example)
 ```sh
 sudo pacman -Syu plasma sddm kdednsutils vim tmux htop bpytop libreoffice-still git wget networkmanager-openvpn neofetch powerline-fonts ttf-fira-code starship barrier notepadqq joplin joplin-dektop ranger topgrade bash-completion xorg-xinput rofi dmenu networkmanager-dmenu-git polybar wmctrl atom gitkraken pycharm-community-edition
 ```
