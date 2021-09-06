@@ -34,7 +34,7 @@ ping google.com
 ```
 Set daytime
 ```sh
-timedatectl set ntp true
+timedatectl set-ntp true
 ```
 List all disks and partitons installed
 ```sh
@@ -91,8 +91,8 @@ cryptsetup luksFormat -v -s 512 -h sha512 /dev/sdXN # where XN is the home parti
 ```
 Open encrypted partition
 ```sh
-cryptsetup open /dev/sdXN label # where XN is the root partition (eg. /dev/sda3) and the desired label (eg. linux) and enter the password
-cryptsetup open /dev/sdXN label # where XN is the home partition (eg. /dev/sda4) and the desired label (eg. home) and enter the password
+cryptsetup open /dev/sdXN "label" # where XN is the root partition (eg. /dev/sda3) and the desired label (eg. linux) and enter the password
+cryptsetup open /dev/sdXN "label" # where XN is the home partition (eg. /dev/sda4) and the desired label (eg. home) and enter the password
 ```
 Check if the encrypted partition are opened
 ```sh
@@ -105,12 +105,12 @@ mkfs.btrfs -L home /dev/mapper/home # for the home partition
 ```
 Create the root subvolumes
 ```sh
-mount -t btrfs /dev/mapper/root /mnt # mount the root partition
+mount -t btrfs /dev/mapper/linux /mnt # mount the root partition
 cd /mnt # navigate to the partition
-btrfs subvolumes create root /mnt # create root subvolume
-btrfs subvolumes create swap # create swap subvolume
-btrfs subvolumes create snapshots # create snapshots subvolume
-btrfs subvolumes create var # create var subvolume
+btrfs subvolume create root # create root subvolume
+btrfs subvolume create swap # create swap subvolume
+btrfs subvolume create snapshots # create snapshots subvolume
+btrfs subvolume create var # create var subvolume
 ls # to check the subvolumes
 cd /
 umount -R /mnt
@@ -119,7 +119,7 @@ Create the home subvolumes
 ```sh
 mount -t btrfs /dev/mapper/home /mnt # mount the home partition
 cd /mnt # navigate to the partition
-btrfs subvolumes create home /mnt # create home subvolume
+btrfs subvolume create home # create home subvolume
 ls # to check the subvolume
 cd /
 umount -R /mnt
@@ -196,7 +196,7 @@ vim /etc/hosts # and insert your host
 >127.0.1.1		yourhostname.localdomain	yourhostname
 
 #### Grub config
-Set the grub config and insert `cryptdevice=/dev/sdaX:yourhostname` into `GRUB_CMDLINE_LINUX=""` where sdaX is your linux partition    
+Set the grub config and insert `cryptdevice=/dev/sdaX:partition_name` into `GRUB_CMDLINE_LINUX=""` where sdaX is your linux partition and partition_name is you /dev/mapper/partition_name
 
 ```sh
 vim /etc/default/grub
