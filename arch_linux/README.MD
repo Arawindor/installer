@@ -202,7 +202,7 @@ Set the grub config and insert `cryptdevice=/dev/sdaX:yourhostname` into `GRUB_C
 vim /etc/default/grub
 ```
 
-> GRUB_CMDLINE_LINUX="cryptdevice/dev/sda3:archlinux"
+> GRUB_CMDLINE_LINUX="cryptdevice=/dev/sda3:archlinux"
 
 #### Config mkinitcpio.conf
 Configure mkinitcpio.conf and insert `encrypt` before `filesystems` into the `HOOKS` field   
